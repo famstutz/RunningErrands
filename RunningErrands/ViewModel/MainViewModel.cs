@@ -1,4 +1,6 @@
 ﻿using GalaSoft.MvvmLight;
+using RunningErrands.Model;
+using System.Collections.ObjectModel;
 
 namespace RunningErrands.ViewModel
 {
@@ -20,7 +22,7 @@ namespace RunningErrands.ViewModel
         {
             get
             {
-                return "MVVM LIGHT";
+                return "Running Errands".ToUpper();
             }
         }
 
@@ -41,6 +43,36 @@ namespace RunningErrands.ViewModel
         }
 
         /// <summary>
+        /// The <see cref="Shops" /> property's name.
+        /// </summary>
+        public const string ShopsPropertyName = "Shops";
+
+        private ObservableCollection<Shop> _shops = new ObservableCollection<Shop>();
+
+        public ObservableCollection<Shop> Shops
+        {
+            get
+            {
+                return _shops;
+            }
+
+            set
+            {
+                if (_shops == value)
+                {
+                    return;
+                }
+
+                var oldValue = _shops;
+                _shops = value;
+
+                // Update bindings, no broadcast
+                RaisePropertyChanged(ShopsPropertyName);
+
+            }
+        }
+
+        /// <summary>
         /// Initializes a new instance of the MainViewModel class.
         /// </summary>
         public MainViewModel()
@@ -51,6 +83,14 @@ namespace RunningErrands.ViewModel
             }
             else
             {
+                Shops.Add(new Shop() { Name = "Manor", Tasks = new ObservableCollection<Task>() {
+                    new Task() { Description = "bla", IsDone = false},
+                    new Task() { Description = "bla", IsDone = true},
+                    new Task() { Description = "bla", IsDone = false}
+                }});
+                Shops.Add(new Shop() { Name = "Coop" });
+                Shops.Add(new Shop() { Name = "Migros" });
+
                 // Code runs "for real"
             }
         }

@@ -12,7 +12,9 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
-using RunningErrands.ViewModel;
+using RunningErrands.ViewModels;
+using Wintellect.Sterling;
+using Wintellect.Sterling.IsolatedStorage;
 
 namespace RunningErrands
 {
@@ -29,7 +31,15 @@ namespace RunningErrands
             private set;
         }
 
-        // Constructor
+        public ISterlingDatabaseInstance Database
+        {
+            get { return _database; }
+            set { _database = value; }
+        }
+
+        public int LastSterlingIndex { get; set; }
+
+                // Constructor
         public App()
         {
             // Global handler for uncaught exceptions. 
@@ -67,6 +77,22 @@ namespace RunningErrands
         // This code will not execute when the application is reactivated
         private void Application_Launching(object sender, LaunchingEventArgs e)
         {
+            SetupTheDatabase();
+        }
+
+        private void SetupTheDatabase()
+        {
+            // create the sterling engine
+            _engine = new SterlingEngine();
+
+            // create a logger for the sterling db
+            _logger = new SterlingDefaultLogger(SterlingLogLevel.Verbose);
+
+            // activate the sterling engine
+            _engine.Activate();
+
+            // Register your database with the sterling engine and specify its persistence in isolated storage
+            Database = _engine.SterlingDatabase.RegisterDatabase<ItemsDatabaseInstance>(new IsolatedStorageDriver());
         }
 
         // Code to execute when the application is activated (brought to foreground)
@@ -85,7 +111,11 @@ namespace RunningErrands
         // This code will not execute when the application is deactivated
         private void Application_Closing(object sender, ClosingEventArgs e)
         {
-            ViewModelLocator.Cleanup();
+            Database.Flush();
+            _logger.Detach();
+            _engine.Dispose();
+            Database = null;
+            _engine = null;
         }
 
         // Code to execute if a navigation fails
@@ -112,6 +142,9 @@ namespace RunningErrands
 
         // Avoid double-initialization
         private bool phoneApplicationInitialized = false;
+        private SterlingEngine _engine;
+        private ISterlingDatabaseInstance _database;
+        private static SterlingDefaultLogger _logger;
 
         // Do not add any additional code to this method
         private void InitializePhoneApplication()

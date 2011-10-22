@@ -69,29 +69,41 @@
     <Reference Include="System.Net" />
     <Reference Include="System.Xml" />
     <Reference Include="mscorlib.extensions" />
+    <Reference Include="Wintellect.Sterling.WindowsPhone">
+      <HintPath>..\..\Sterling-1.5.0.0-bin\Wintellect.Sterling.WindowsPhone.dll</HintPath>
+    </Reference>
+    <Reference Include="Wintellect.Sterling.WindowsPhone.IsolatedStorage">
+      <HintPath>..\..\Sterling-1.5.0.0-bin\Wintellect.Sterling.WindowsPhone.IsolatedStorage.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MainPage.xaml.cs">
+    <Compile Include="BindableApplicationBar\AppBarItemClick.cs" />
+    <Compile Include="BindableApplicationBar\AppBarItemCommandBehavior.cs" />
+    <Compile Include="BindableApplicationBar\BindableApplicationBar.cs" />
+    <Compile Include="BindableApplicationBar\BindableApplicationBarIconButton.cs" />
+    <Compile Include="BindableApplicationBar\BindableApplicationBarMenuItem.cs" />
+    <Compile Include="Extensions\Extensions.cs" />
+    <Compile Include="Extensions\VisualTreeExtensions.cs" />
+    <Compile Include="ItemsDatabaseInstance.cs" />
+    <Compile Include="Model\ListItem.cs" />
+    <Compile Include="Model\ModelBase.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\SterlingRepository.cs" />
+    <Compile Include="ViewModelLocator\MainPageViewModelLocator.cs" />
+    <Compile Include="ViewModels\ListItemViewModel.cs" />
+    <Compile Include="ViewModels\MainPageViewModel.cs" />
+    <Compile Include="Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Model\Shop.cs" />
-    <Compile Include="Model\Task.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ViewModel\MainViewModel.cs" />
-    <Compile Include="ViewModel\ViewModelLocator.cs" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="MainPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AppManifest.xml" />
@@ -104,11 +116,25 @@
     <Content Include="Background.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Images\dark\add.png" />
+    <Resource Include="Images\dark\basecircle.png" />
+    <Resource Include="Images\dark\questionmark.png" />
+    <Resource Include="Images\dark\refresh.png" />
+    <Resource Include="Images\dark\save.png" />
+    <Resource Include="Images\light\add.png" />
+    <Resource Include="Images\light\questionmark.png" />
+    <Resource Include="Images\light\refresh.png" />
+    <Resource Include="Images\light\save.png" />
     <Content Include="SplashScreenImage.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Page Include="Views\MainPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.$(TargetFrameworkProfile).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

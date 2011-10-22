@@ -5,20 +5,20 @@
     xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:MVVM="clr-namespace:RunningErrands.ViewModelLocator.Framework.Implementors.Silverlight.MVVM" xmlns:Command="clr-namespace:GalaSoft.MvvmLight.Command;assembly=GalaSoft.MvvmLight.Extras.WP7" xmlns:Interactivity="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity" xmlns:Shell="clr-namespace:Controls.Shell" xmlns:ApplicationBarItem="clr-namespace:Controls.Commands.ApplicationBarItem" mc:Ignorable="d" FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:MVVM="clr-namespace:RunningErrands.ViewModelLocator.Framework.Implementors.Silverlight.MVVM" xmlns:Command="clr-namespace:GalaSoft.MvvmLight.Command;assembly=GalaSoft.MvvmLight.Extras.WP71" xmlns:Interactivity="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity" xmlns:Shell="clr-namespace:Controls.Shell" xmlns:ApplicationBarItem="clr-namespace:Controls.Commands.ApplicationBarItem" mc:Ignorable="d" FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait" Orientation="Portrait"
     shell:SystemTray.IsVisible="True" d:DesignHeight="768" d:DesignWidth="480">
-    
+
     <phone:PhoneApplicationPage.Resources>
         <MVVM:MainPageViewModelLocator x:Key="locator" />
     </phone:PhoneApplicationPage.Resources>
-   
+
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="Transparent" DataContext="{Binding Source={StaticResource locator},  Path=ViewModel}">
-        
+
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
@@ -26,70 +26,58 @@
 
         <!--TitlePanel contains the name of the application and page title-->
         <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,28">
-            <TextBlock x:Name="ApplicationTitle" Text="TODO List" Style="{StaticResource PhoneTextNormalStyle}"/>
-            <TextBlock x:Name="PageTitle" Text="Today's Tasks" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
+            <TextBlock x:Name="ApplicationTitle" Text="RUNNING ERRANDS" Style="{StaticResource PhoneTextNormalStyle}"/>
+            <TextBlock x:Name="PageTitle" Text="Things to do..." Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
         </StackPanel>
 
         <Shell:BindableApplicationBar IsVisible="True" IsMenuEnabled="True">
-            <Shell:BindableApplicationBarIconButton Text="Add" IconUri="/Images/dark/add.png" ApplicationBarItem:AppBarItemClick.Command="{Binding OpenListItemDialogCommand}"  />
-            <Shell:BindableApplicationBarIconButton Text="Add" IconUri="/Images/dark/questionmark.png" ApplicationBarItem:AppBarItemClick.Command="{Binding DeleteListCommand}"  />
+            <Shell:BindableApplicationBarIconButton Text="Add Task" IconUri="/Images/appbar.add.rest.png" ApplicationBarItem:AppBarItemClick.Command="{Binding OpenTaskDialogCommand}"  />
+            <Shell:BindableApplicationBarIconButton Text="Clear List" IconUri="/Images/appbar.delete.rest.png" ApplicationBarItem:AppBarItemClick.Command="{Binding DeleteListCommand}"  />
         </Shell:BindableApplicationBar>
 
         <!--ContentPanel - place additional content here-->
-        
+
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
             <Grid.Resources>
-                
+
             </Grid.Resources>
             <ScrollViewer VerticalScrollBarVisibility="Auto">
-            <ItemsControl  ItemsSource="{Binding ListItems}">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <CheckBox IsChecked="{Binding IsFinished, Mode=TwoWay}" Margin="0,0,10,0" />
-                            <TextBlock Text ="{Binding Text}" Margin="0,20,0,0" />
-                        </StackPanel>                        
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
+                <ItemsControl  ItemsSource="{Binding Tasks}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <CheckBox IsChecked="{Binding IsDone, Mode=TwoWay}" Margin="0,0,10,0" />
+                                <TextBlock Text ="{Binding Text}" Margin="0,20,0,0" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
             </ScrollViewer>
             <Popup IsOpen="{Binding PromptEntry}">
                 <Border CornerRadius="5" BorderThickness="3" Background="#FF7C7171" Width="320">
-                	<Border.BorderBrush>
-                		<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                			<GradientStop Color="Black" Offset="0"/>
-                			<GradientStop Color="#FFE42121" Offset="1"/>
-                		</LinearGradientBrush>
-                	</Border.BorderBrush>
+                    <Border.BorderBrush>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="Black" Offset="0"/>
+                            <GradientStop Color="#FFE42121" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Border.BorderBrush>
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="To Do Item:"  />
-                            <TextBox Width="200" x:Name="ToDoEntry" />
+                            <TextBlock Text="Task:"  />
+                            <TextBox Width="200" x:Name="TaskEntry" />
                         </StackPanel>
                         <StackPanel Grid.Row="1" Orientation="Horizontal">
                             <Button Content="Cancel" Command="{Binding CancelCommand}"  />
-                            <Button Content="OK" Command="{Binding AddToDoCommand}" CommandParameter="{Binding ElementName=ToDoEntry, Path=Text}" />
+                            <Button Content="OK" Command="{Binding AddTaskCommand}" CommandParameter="{Binding ElementName=TaskEntry, Path=Text}" />
                         </StackPanel>
                     </Grid>
                 </Border>
             </Popup>
         </Grid>
     </Grid>
- 
-    <!--Sample code showing usage of ApplicationBar-->
-    <!--<phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
-            <shell:ApplicationBarIconButton IconUri="/Images/appbar_button1.png" Text="Button 1"/>
-            <shell:ApplicationBarIconButton IconUri="/Images/appbar_button2.png" Text="Button 2"/>
-            <shell:ApplicationBar.MenuItems>
-                <shell:ApplicationBarMenuItem Text="MenuItem 1"/>
-                <shell:ApplicationBarMenuItem Text="MenuItem 2"/>
-            </shell:ApplicationBar.MenuItems>
-        </shell:ApplicationBar>
-    </phone:PhoneApplicationPage.ApplicationBar>-->
 
 </phone:PhoneApplicationPage>

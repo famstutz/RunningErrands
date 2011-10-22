@@ -10,42 +10,42 @@ using RunningErrands.Model;
 
 namespace RunningErrands.ViewModels
 {
-    public class MainPageViewModel : ViewModelBase 
+    public class MainPageViewModel : ViewModelBase
     {
         // List of Tasks for the day
-        private ObservableCollection<ListItemViewModel> _listItems;
-        public ObservableCollection<ListItemViewModel> ListItems
+        private ObservableCollection<TaskViewModel> _tasks;
+        public ObservableCollection<TaskViewModel> Tasks
         {
-            get { return _listItems; }
-            set { _listItems = value; RaisePropertyChanged("ListItems"); }
+            get { return _tasks; }
+            set { _tasks = value; RaisePropertyChanged("Tasks"); }
         }
 
         public MainPageViewModel()
         {
 
-            AddToDoCommand = new RelayCommand<string>(OnAddToDoCommand);
-                                 ListItems = new ObservableCollection<ListItemViewModel>();
+            AddTaskCommand = new RelayCommand<string>(OnAddTaskCommand);
+            Tasks = new ObservableCollection<TaskViewModel>();
 
             CancelCommand = new RelayCommand(OnCancel);
 
             DeleteListCommand = new RelayCommand(OnDeleteList);
 
-            OpenListItemDialogCommand = new RelayCommand(OnOpenListItemDialog);
+            OpenTaskDialogCommand = new RelayCommand(OnOpenTaskDialog);
 
             // if in design view, show two dummy tasks
             if (IsInDesignMode)
             {
-                ListItems.Add(new ListItemViewModel {IsFinished = true, Text = "Take Out Garbage"});
-                ListItems.Add(new ListItemViewModel { IsFinished = false, Text = "Bring in Newspaper" });
+                Tasks.Add(new TaskViewModel { IsDone = true, Text = "Take Out Garbage" });
+                Tasks.Add(new TaskViewModel { IsDone = false, Text = "Bring in Newspaper" });
             }
             else
             {
                 // read in real tasks from a db here
-                List<ListItem> tempItems = new List<ListItem>();
-                
-                ListItems = new ObservableCollection<ListItemViewModel>(tempItems.Load().Select(model => new ListItemViewModel(model)));
+                List<Task> tempTasks = new List<Task>();
+
+                Tasks = new ObservableCollection<TaskViewModel>(tempTasks.Load().Select(model => new TaskViewModel(model)));
             }
-            
+
         }
 
         private void OnCancel()
@@ -53,33 +53,33 @@ namespace RunningErrands.ViewModels
             PromptEntry = false;
         }
 
-        public  RelayCommand CancelCommand { get; private set; }
+        public RelayCommand CancelCommand { get; private set; }
 
         private void OnDeleteList()
         {
             if (MessageBox.Show("Are you sure you want to delete the list?", "Confirm", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
             {
-                (App.Current as App).Database.Truncate(typeof(ListItem));
-                ListItems.Clear();
+                (App.Current as App).Database.Truncate(typeof(Task));
+                Tasks.Clear();
             }
         }
 
         public RelayCommand DeleteListCommand { get; private set; }
 
-        private void OnOpenListItemDialog()
+        private void OnOpenTaskDialog()
         {
             PromptEntry = true;
         }
 
-        public RelayCommand<string> AddToDoCommand { get; private set; }
-        public RelayCommand OpenListItemDialogCommand { get; private set; }
+        public RelayCommand<string> AddTaskCommand { get; private set; }
+        public RelayCommand OpenTaskDialogCommand { get; private set; }
 
-        private void OnAddToDoCommand(string text)
+        private void OnAddTaskCommand(string text)
         {
-            var model = new ListItem() {IsFinished = false, Text = text};
+            var model = new Task() { IsDone = false, Text = text };
             model.Save(); // persist it
-            var listItemViewModel = new ListItemViewModel(model);
-            ListItems.Add(listItemViewModel);
+            var listItemViewModel = new TaskViewModel(model);
+            Tasks.Add(listItemViewModel);
             PromptEntry = false;
         }
 
@@ -87,7 +87,7 @@ namespace RunningErrands.ViewModels
         public bool PromptEntry
         {
             get { return _promptEntry; }
-            set { _promptEntry = value; RaisePropertyChanged("PromptEntry");}
+            set { _promptEntry = value; RaisePropertyChanged("PromptEntry"); }
         }
     }
 }

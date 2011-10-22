@@ -8,9 +8,9 @@ namespace RunningErrands.Extensions
 {
     public static class Extensions
     {
-        public static void Save(this ListItem listItem)
+        public static void Save(this Task listItem)
         {
-            int currentIndex = (Application.Current as App).Database.Query<ListItem, int>().Count();
+            int currentIndex = (Application.Current as App).Database.Query<Task, int>().Count();
             if (listItem.Key == -1)
             {
                 listItem.Key = currentIndex;
@@ -21,11 +21,11 @@ namespace RunningErrands.Extensions
 
         }
 
-        public static IEnumerable<ListItem> Load(this IEnumerable<ListItem> listItem)
+        public static IEnumerable<Task> Load(this IEnumerable<Task> listItem)
         {
 
-            var list = (Application.Current as App).Database.Query<ListItem, int>();
-            return new ObservableCollection<ListItem>(list.Select(item => item.LazyValue.Value).ToList());
+            var list = (Application.Current as App).Database.Query<Task, int>();
+            return new ObservableCollection<Task>(list.Select(item => item.LazyValue.Value).ToList());
         }
     }
 }

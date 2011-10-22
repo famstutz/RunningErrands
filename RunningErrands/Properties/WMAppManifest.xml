@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-
 <Deployment xmlns="http://schemas.microsoft.com/windowsphone/2009/deployment" AppPlatformVersion="7.1">
-  <App xmlns="" ProductID="{ac5b5d62-573c-4134-b290-0ad4f678ad7f}" Title="RunningErrands" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal"  Author="RunningErrands author" Description="Sample description" Publisher="RunningErrands publisher">
-    <IconPath IsRelative="true" IsResource="false">ApplicationIcon.jpg</IconPath>
+  <App xmlns="" ProductID="{ac5b5d62-573c-4134-b290-0ad4f678ad7f}" Title="RunningErrands" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="Florian A" Description="Running Errands lets you add and monitor tasks, that you have to take care of during the day." Publisher="Florian A">
+    <IconPath IsRelative="true" IsResource="false">ApplicationIcon.png</IconPath>
     <Capabilities>
+      <!--
       <Capability Name="ID_CAP_GAMERSERVICES"/>
       <Capability Name="ID_CAP_IDENTITY_DEVICE"/>
       <Capability Name="ID_CAP_IDENTITY_USER"/>
@@ -17,17 +17,17 @@
       <Capability Name="ID_CAP_WEBBROWSERCOMPONENT"/>
       <Capability Name="ID_CAP_ISV_CAMERA"/>
       <Capability Name="ID_CAP_CONTACTS"/>
-      <Capability Name="ID_CAP_APPOINTMENTS"/>
+      <Capability Name="ID_CAP_APPOINTMENTS"/>-->
     </Capabilities>
     <Tasks>
-      <DefaultTask  Name ="_default" NavigationPage="MainPage.xaml"/>
+      <DefaultTask Name="_default" NavigationPage="/Views/MainPage.xaml" />
     </Tasks>
     <Tokens>
       <PrimaryToken TokenID="RunningErrandsToken" TaskName="_default">
         <TemplateType5>
-          <BackgroundImageURI IsRelative="true" IsResource="false">Background.jpg</BackgroundImageURI>
+          <BackgroundImageURI IsRelative="true" IsResource="false">Background.png</BackgroundImageURI>
           <Count>0</Count>
-          <Title>RunningErrands</Title>
+          <Title>Running Errands</Title>
         </TemplateType5>
       </PrimaryToken>
     </Tokens>

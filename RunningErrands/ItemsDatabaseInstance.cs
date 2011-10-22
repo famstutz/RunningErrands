@@ -22,7 +22,7 @@ namespace RunningErrands
 
                        {
                            // we are only registering the To Do list item with the Sterling engine in this example
-                           CreateTableDefinition<ListItem, int>(testModel => testModel.Key)
+                           CreateTableDefinition<Task, int>(testModel => testModel.Key)
                        };
         }
 
